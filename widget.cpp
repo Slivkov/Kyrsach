@@ -1,42 +1,42 @@
-#include "widget.h"
-#include "addservice.h"
-#include <QVBoxLayout>
-#include <QPushButton>
-#include <QHeaderView>
-#include <QMessageBox>
-#include <QFile>
-#include <QTextStream>
-#include <QFileDialog>
+#include "widget.h" // Класс
+#include "addservice.h" // класс добавления виджета
+#include <QVBoxLayout> // Заполняет виджеты сверху вниз
+#include <QPushButton> // Для создания кнопок
+#include <QHeaderView> // Для звголовков
+#include <QMessageBox> // Для диалоговых окон
+#include <QFile> // Для сохранения
+#include <QTextStream> // Для сохранения Без них 3-х все сломается(((9(
+#include <QFileDialog> // Для сохранения
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
 {
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    QVBoxLayout *layout = new QVBoxLayout(this);  // создание вертикального (без него сломается)
 
-    tableWidget = new QTableWidget(this);
-    createTable();
-    populateTable();
+    tableWidget = new QTableWidget(this); //таблица новая
+    createTable(); //создал
+    populateTable(); // ЗАполнил
 
     QPushButton *addButton = new QPushButton("Добавить услугу", this);
-    connect(addButton, &QPushButton::clicked, this, &Widget::addService);
+    connect(addButton, &QPushButton::clicked, this, &Widget::addService); // связываю кнопку "добавить" со слотом addservice
 
     QPushButton *removeButton = new QPushButton("Удалить услугу", this);
-    connect(removeButton, &QPushButton::clicked, this, &Widget::removeService);
+    connect(removeButton, &QPushButton::clicked, this, &Widget::removeService); // также связываю
 
     QPushButton *saveButton = new QPushButton("Сохранить", this);
-    connect(saveButton, &QPushButton::clicked, this, &Widget::saveData);
+    connect(saveButton, &QPushButton::clicked, this, &Widget::saveData); // Всё так же
 
-    layout->addWidget(tableWidget);
+    layout->addWidget(tableWidget); // добавляю виджеты в тот самый вертикальный лайаут
     layout->addWidget(addButton);
     layout->addWidget(removeButton);
     layout->addWidget(saveButton);
 }
 
-Widget::~Widget()
+Widget::~Widget() // Деструктор. Пусть будет
 {
 }
 
-void Widget::createTable()
+void Widget::createTable() // создание самой таблицы
 {
     tableWidget->setColumnCount(4);
     tableWidget->setHorizontalHeaderLabels({"Название услуги", "Наименование специалиста", "Стоимость услуги", "Время оказания услуги"});
@@ -44,7 +44,7 @@ void Widget::createTable()
     tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
-void Widget::populateTable()
+void Widget::populateTable() // заполнеиние их по умолчанию
 {
     tableWidget->setRowCount(2);
 
@@ -69,7 +69,7 @@ void Widget::populateTable()
     tableWidget->setItem(1, 3, item8);
 }
 
-void Widget::addService()
+void Widget::addService() //функция добавления новой
 {
     AddService addServiceDialog(this);
     if (addServiceDialog.exec() == QDialog::Accepted) {
@@ -87,7 +87,7 @@ void Widget::addService()
     }
 }
 
-void Widget::removeService()
+void Widget::removeService() // функция удаления
 {
     int currentRow = tableWidget->currentRow();
     if (currentRow >= 0) {
@@ -95,7 +95,7 @@ void Widget::removeService()
     }
 }
 
-void Widget::saveData()
+void Widget::saveData() // сохранение
 {
     QString fileName = QFileDialog::getSaveFileName(this, "Сохранить данные", "", "Текстовые файлы (*.txt)");
     if (!fileName.isEmpty()) {
@@ -104,6 +104,7 @@ void Widget::saveData()
             QTextStream out(&file);
             int rowCount = tableWidget->rowCount();
             int columnCount = tableWidget->columnCount();
+            // далее прохожусь по всем ячейкам
             for (int row = 0; row < rowCount; ++row) {
                 for (int column = 0; column < columnCount; ++column) {
                     QTableWidgetItem *item = tableWidget->item(row, column);
