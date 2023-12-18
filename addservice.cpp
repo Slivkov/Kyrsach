@@ -2,12 +2,12 @@
 #include <QVBoxLayout>
 #include <QFormLayout>
 
-AddService::AddService(QWidget *parent)
+AddService::AddService(QWidget *parent) // конструктор
     : QDialog(parent)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
 
-    QFormLayout *formLayout = new QFormLayout();
+    QFormLayout *formLayout = new QFormLayout(); // создаю форму для ввода новой услуги
     serviceNameLineEdit = new QLineEdit(this);
     specialistNameLineEdit = new QLineEdit(this);
     serviceCostLineEdit = new QLineEdit(this);
@@ -19,21 +19,21 @@ AddService::AddService(QWidget *parent)
     formLayout->addRow("Время оказания услуги (минут):", serviceTimeLineEdit);
 
     layout->addLayout(formLayout);
-
+// кнопки добавить и отмена
     addButton = new QPushButton("Добавить", this);
     connect(addButton, &QPushButton::clicked, this, &QDialog::accept);
 
     cancelButton = new QPushButton("Отмена", this);
     connect(cancelButton, &QPushButton::clicked, this, &QDialog::reject);
 
-    QHBoxLayout *buttonLayout = new QHBoxLayout();
+    QHBoxLayout *buttonLayout = new QHBoxLayout(); //размещение кнопок на форме
     buttonLayout->addWidget(addButton);
     buttonLayout->addWidget(cancelButton);
 
     layout->addLayout(buttonLayout);
 }
 
-QString AddService::getServiceName() const
+QString AddService::getServiceName() const // получаю данные все
 {
     return serviceNameLineEdit->text();
 }
