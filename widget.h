@@ -1,4 +1,4 @@
-#ifndef WIDGET_H
+#ifndef WIDGET_H // Чтобы не было многократное включение одного и того же
 #define WIDGET_H
 
 #include <QWidget>
@@ -11,17 +11,17 @@ class Widget : public QWidget
 public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
-
+// Отличие слота от обычного привата - могут быть вызваны любым компонентом
 private slots:
-    void addService();
-    void removeService();
-    void saveData();
+    void addService(); // Это слот для добавления услуги
+    void removeService(); // Удаление услуги
+    void saveData(); // Для сохранения данных
 
 private:
-    QTableWidget *tableWidget;
+    QTableWidget *tableWidget; // Для отображения услуг
 
-    void createTable();
-    void populateTable();
+    void createTable(); // Для создания таблицы
+    void populateTable(); // Для заполнения двумя услугами изначально
 };
 
 #endif // WIDGET_H
