@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>../menu.jpg</file>
+        <file>../rykovod.png</file>
+        <file>kek.png</file>
+    </qresource>
+</RCC>
